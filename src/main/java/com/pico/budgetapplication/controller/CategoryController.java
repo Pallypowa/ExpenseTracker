@@ -19,7 +19,6 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     public CategoryController(CategoryRepository categoryRepository, CategoryService categoryService) {
-        this.categoryRepository = categoryRepository;
         this.categoryService = categoryService;
     }
 
