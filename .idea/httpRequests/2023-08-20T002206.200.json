@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "amount": 1385,
+    "date": "2023-08-20T00:22:03.860236",
+    "currency": "HUF",
+    "desc": "Just a daily cinema",
+    "usersrsId": 1
+  },
+  {
+    "id": 2,
+    "amount": 25000,
+    "date": "2023-08-20T00:22:03.860262",
+    "currency": "HUF",
+    "desc": "Electricity bill",
+    "usersrsId": 1
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "categoryName": "Utilities"
+  },
+  {
+    "id": 3,
+    "categoryName": "Groceries"
+  },
+  {
+    "id": 4,
+    "categoryName": "Health"
+  },
+  {
+    "id": 5,
+    "categoryName": "Fun"
+  },
+  {
+    "id": 6,
+    "categoryName": "Sport"
+  }
+]

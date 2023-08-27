@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "categoryName": "Utilities",
+    "iconUrl": "https:randomurl.com"
+  },
+  {
+    "id": 2,
+    "categoryName": "Travel",
+    "iconUrl": "https:randomurl.com"
+  },
+  {
+    "id": 3,
+    "categoryName": "Groceries",
+    "iconUrl": "https:randomurl.com"
+  },
+  {
+    "id": 4,
+    "categoryName": "Health",
+    "iconUrl": "https:randomurl.com"
+  },
+  {
+    "id": 5,
+    "categoryName": "Fun",
+    "iconUrl": "https:randomurl.com"
+  }
+]

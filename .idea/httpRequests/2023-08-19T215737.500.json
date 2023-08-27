@@ -1,0 +1,6 @@
+{
+  "timestamp": "2023-08-19T19:57:37.303+00:00",
+  "status": 500,
+  "error": "Internal Server Error",
+  "path": "/api/expense_tracker/expense/createExpense"
+}

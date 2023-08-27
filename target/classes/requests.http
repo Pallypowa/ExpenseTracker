@@ -1,0 +1,83 @@
+###
+GET http://localhost:8080/api/expense_tracker/expense/findAll
+
+<> 2023-08-19T222953.200.json
+<> 2023-08-19T214446.200.json
+<> 2023-08-19T213307.200.json
+<> 2023-08-19T210014.200.json
+<> 2023-08-19T204856.200.json
+###
+GET http://localhost:8080/api/expense_tracker/user/findAll
+
+<> 2023-08-19T222936.200.json
+<> 2023-08-19T222351.200.json
+<> 2023-08-19T221821.200.json
+<> 2023-08-19T221802.200.json
+<> 2023-08-19T221733.200.json
+<> 2023-08-19T221400.200.json
+<> 2023-08-19T215916.200.json
+<> 2023-08-19T215733.200.json
+<> 2023-08-19T215517.200.json
+<> 2023-08-19T215239.200.json
+<> 2023-08-19T214941.200.json
+<> 2023-08-19T214815.200.json
+<> 2023-08-19T214109.200.json
+<> 2023-08-19T213812.200.json
+<> 2023-08-19T213505.200.json
+<> 2023-08-19T213301.200.json
+
+###
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense3 for Wowfan",
+  "user": {
+    "id": 2
+  }
+}
+
+###
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+###
+GET http://localhost:8080/api/expense_tracker/category/findAll
+
+###
+POST http://localhost:8080/api/expense_tracker/category/createCategory
+Content-Type: application/json
+
+{
+  "categoryName" : "Holiday"
+}
+
+###
+PUT http://localhost:8080/api/expense_tracker/category/updateCategory
+Content-Type: application/json
+
+{
+  "id": 6,
+  "categoryName" : "Sport"
+}
+
+###
+DELETE http://localhost:8080/api/expense_tracker/category/deleteCategory?id=2

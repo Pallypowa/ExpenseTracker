@@ -1,0 +1,789 @@
+GET http://localhost:8080/api/expense_tracker/category/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-22T234213.200.json
+
+###
+
+DELETE http://localhost:8080/api/expense_tracker/category/deleteCategory?id=2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:8080/api/expense_tracker/category/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-22T234141.200.json
+
+###
+
+PUT http://localhost:8080/api/expense_tracker/category/updateCategory
+Content-Type: application/json
+Content-Length: 41
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": 6,
+  "categoryName" : "Sport"
+}
+
+<> 2023-08-22T234138.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/category/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-22T234058.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/category/createCategory
+Content-Type: application/json
+Content-Length: 32
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "categoryName" : "Holiday"
+}
+
+<> 2023-08-22T234054.201.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/category/createCategory
+Content-Type: application/json
+Content-Length: 32
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "categoryName" : "Holiday"
+}
+
+<> 2023-08-22T233939.500.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/category/createCategory
+Content-Type: application/json
+Content-Length: 32
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "categoryName" : "Holiday"
+}
+
+<> 2023-08-22T233838.500.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/category/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-22T233752.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/category/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-22T230656.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/category/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-22T230652.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 267
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+<> 2023-08-20T003426.415.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 267
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+<> 2023-08-20T003412.415.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 267
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+<> 2023-08-20T003400.415.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 267
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+<> 2023-08-20T003347.415.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 264
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asdasdasd",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+<> 2023-08-20T003334.415.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/expense/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-20T002358.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/expense/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-20T002256.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/expense/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-20T002206.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/expense/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-20T002040.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T234158.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 273
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asdasdasd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T234147.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 169
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense3 for Wowfan",
+  "user": {
+    "id": 2
+  }
+}
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T234141.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/expense/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T222953.200.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T222936.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 273
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asdasdasd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T222351.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 273
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "asdasdasd@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+<> 2023-08-19T222339.500.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/user/createUser
+Content-Type: application/json
+Content-Length: 277
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userName": "piko.martin99",
+  "password": "password",
+  "email": "piko.martin99@pico.com",
+  "expenses": [
+    {
+      "amount": 56000,
+      "date": "2023-08-19T21:48:03.161103",
+      "category": "Fun",
+      "currency": "HUF",
+      "desc": "Diablo 4 with DLC"
+    }]
+}
+
+<> 2023-08-19T222308.500.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T221821.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 169
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense3 for Wowfan",
+  "user": {
+    "id": 2
+  }
+}
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T221802.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 168
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "user": {
+    "id": 2
+  }
+}
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T221733.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 274
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "user": {
+    "id": 2,
+    "userName": "Wowfan",
+    "password": "password",
+    "email": "wowfan@pico.com",
+    "expenses": []
+  }
+}
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 289
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2,
+  "user": {
+    "id": 2,
+    "userName": "Wowfan",
+    "password": "password",
+    "email": "wowfan@pico.com",
+    "expenses": []
+  }
+}
+
+<> 2023-08-19T221704.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T221501.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T221407.400.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T221400.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T221016.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T220322.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T220243.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T220145.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T220134.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T220100.400.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T215919.400.json
+
+###
+
+GET http://localhost:8080/api/expense_tracker/user/findAll
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-08-19T215916.200.json
+
+###
+
+POST http://localhost:8080/api/expense_tracker/expense/createExpense
+Content-Type: application/json
+Content-Length: 154
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "amount": 42000,
+  "date": "2023-08-19T21:48:03.161103",
+  "category": "Utility",
+  "currency": "HUF",
+  "desc": "Expense for Wowfan",
+  "userId": 2
+}
+
+<> 2023-08-19T215737.500.json
+
+###
+

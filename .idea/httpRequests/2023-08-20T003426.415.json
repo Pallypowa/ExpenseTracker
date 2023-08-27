@@ -1,0 +1,6 @@
+{
+  "timestamp": "2023-08-19T22:34:26.078+00:00",
+  "status": 415,
+  "error": "Unsupported Media Type",
+  "path": "/api/expense_tracker/user/createUser"
+}
