@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dd3f5f22-b898-4c20-affb-37ee86740d67" name="Changes" comment="Initial commit">
+    <list default="true" id="dd3f5f22-b898-4c20-affb-37ee86740d67" name="Changes" comment="Category Service added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/CategoryController.java" afterDir="false" />
@@ -154,7 +154,7 @@
       <workItem from="1693089913365" duration="1794000" />
       <workItem from="1693147370124" duration="991000" />
       <workItem from="1693148371246" duration="4622000" />
-      <workItem from="1693168697986" duration="2921000" />
+      <workItem from="1693168697986" duration="3451000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -180,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1693148303476</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Category Service added">
+      <option name="closed" value="true" />
+      <created>1693172156975</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1693172156975</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,14 +196,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Category Service added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Category Service added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/CategoryController.java</url>
-          <line>35</line>
+          <line>33</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -220,7 +229,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/CategoryController.java</url>
-          <line>54</line>
+          <line>56</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
