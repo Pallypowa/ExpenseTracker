@@ -5,6 +5,8 @@ import com.pico.budgetapplication.model.AuthRequest;
 import com.pico.budgetapplication.model.AuthResponse;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.UserRepository;
+import com.pico.budgetapplication.service.UserService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,67 +17,37 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
 @RestController
 public class AuthController {
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
-    private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public AuthController(AuthenticationManager authenticationManager,
-                          UserDetailsService userDetailsService,
-                          JwtService jwtService,
-                          UserRepository userRepository,
-                          BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
-        this.jwtService = jwtService;
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest){
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-            UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-            String jwt = jwtService.generateToken(userDetails);
-            return new ResponseEntity<>( new AuthResponse(jwt), HttpStatus.OK);
-        }catch(Exception e) {
-            throw new RuntimeException(e);
+        try{
+            String jwt = userService.authenticate(authRequest.getUsername(), authRequest.getPassword());
+            return new ResponseEntity<>(new AuthResponse(jwt), HttpStatus.OK);
+        }catch(RuntimeException rte){
+            return new ResponseEntity<>(rte.getMessage(),HttpStatus.OK);
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user){
-        if(user == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        Optional<User> foundUser = userRepository.findByUsername(user.getUsername());
-        //User already exists with the given user...
-        if(foundUser.isPresent()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        foundUser = userRepository.findByEmail(user.getEmail());
-
-        //User already exists with the given email...
-        if(foundUser.isPresent()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        User newUser = new User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()), user.getEmail());
-
-        try{
-            userRepository.save(newUser);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<?> register(@NotNull @RequestBody User user){
+        try {
+            userService.register(user);
+        }catch(ResponseStatusException rse){
+            return new ResponseEntity<>(rse.getReason(), rse.getStatusCode());
         }catch(Exception e){
-            throw new RuntimeException(e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

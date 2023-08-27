@@ -1,7 +1,6 @@
 package com.pico.budgetapplication.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -14,13 +13,17 @@ public class Category {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "categoryName")
+    @Column(name = "categoryName", length = 10, unique = true)
     @NotBlank
     private String categoryName;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     @JsonIgnore
     private List<Expense> expenseList;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    @JsonIgnore
+    private User user;
     public Category() {
     }
 
@@ -32,6 +35,12 @@ public class Category {
     public Category(String categoryName, List<Expense> expenseList) {
         this.categoryName = categoryName;
         this.expenseList = expenseList;
+    }
+
+    public Category(String categoryName, Long userId){
+        this.categoryName = categoryName;
+        this.user = new User();
+        this.user.setId(userId);
     }
 
     public String getCategoryName() {
@@ -56,5 +65,17 @@ public class Category {
 
     public Long getId() {
         return id;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean userIsNull(){
+        return this.user == null;
     }
 }

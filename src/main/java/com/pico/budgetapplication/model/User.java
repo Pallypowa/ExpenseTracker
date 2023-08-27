@@ -31,6 +31,8 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Expense> expenses;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private List<Category> categories;
 
     public User(String username, String password, String email, List<Expense> expenses) {
         this.username = username;
