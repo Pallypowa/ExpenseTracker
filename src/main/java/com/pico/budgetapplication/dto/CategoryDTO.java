@@ -1,2 +1,4 @@
-package com.pico.budgetapplication.dto;public record CategoryDTO() {
+package com.pico.budgetapplication.dto;
+
+public record CategoryDTO(String categoryName) {
 }

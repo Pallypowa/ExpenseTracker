@@ -1,12 +1,11 @@
 package com.pico.budgetapplication.service;
 
+import com.pico.budgetapplication.dto.RegistrationDTO;
+import com.pico.budgetapplication.dto.UserDTO;
 import com.pico.budgetapplication.jwt.JwtService;
-import com.pico.budgetapplication.model.ProjectUserDetails;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.UserRepository;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,18 +43,24 @@ public class UserService {
         }
     }
 
-    public void register(User user){
-        Optional<User> foundUser = userRepository.findByUsername(user.getUsername());
+    public void register(RegistrationDTO user){
+        Optional<User> foundUser = userRepository.findByUsername(user.username());
         //User already exists with the given user...
         if(foundUser.isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
         }
-        foundUser = userRepository.findByEmail(user.getEmail());
+        foundUser = userRepository.findByEmail(user.email());
         //User already exists with the given email...
         if(foundUser.isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
         }
-        User newUser = new User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()), user.getEmail());
+        User newUser = new User(user.username(),
+                bCryptPasswordEncoder.encode(user.password()),
+                user.email(),
+                user.firstName(),
+                user.lastName(),
+                user.age(),
+                user.gender());
         try{
             userRepository.save(newUser);;
         }catch(Exception e){
@@ -63,8 +68,15 @@ public class UserService {
         }
     }
 
-    public ProjectUserDetails findMyUserDetails(Principal principal){
+    public UserDTO findMyUserDetails(Principal principal){
         User user =  ServiceUtil.getUserInstanceByPrincipal(principal);
-        return userRepository.findAllById(user.getId()).get();
+        User foundUser = userRepository.findById(user.getId()).get();
+        return new UserDTO(foundUser.getUsername(),
+                foundUser.getEmail(),
+                foundUser.getFirstName(),
+                foundUser.getLastName(),
+                foundUser.getAge(),
+                foundUser.getGender()
+                );
     }
 }

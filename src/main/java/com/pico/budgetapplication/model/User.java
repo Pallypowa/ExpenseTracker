@@ -28,6 +28,50 @@ public class User implements UserDetails {
             unique = true)
     private String email;
 
+    private String firstName;
+    private String lastName;
+    private Integer age;
+    private Gender gender;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Expense> expenses;
@@ -49,6 +93,16 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public User(String username, String password, String email, String firstName, String lastName, Integer age, Gender gender) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
     }
 
     public User() {

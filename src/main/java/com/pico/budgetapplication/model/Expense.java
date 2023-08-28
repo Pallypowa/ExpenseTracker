@@ -28,6 +28,9 @@ public class Expense {
     @JoinColumn(name = "categoryId")
     private Category category;
 
+    @Column(nullable = false)
+    private PaymentMethod paymentMethod;
+
     public Expense() {
 
     }
@@ -52,6 +55,26 @@ public class Expense {
         this.desc = desc;
         this.user = user;
         this.category = category;
+    }
+
+
+
+    public Expense(Integer amount, LocalDateTime date, String currency, String desc, User user, Category category, PaymentMethod paymentMethod) {
+        this.amount = amount;
+        this.date = date;
+        this.currency = currency;
+        this.desc = desc;
+        this.user = user;
+        this.category = category;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Expense(Long id, Integer amount, LocalDateTime date, String currency, String desc) {
+        this.id = id;
+        this.amount = amount;
+        this.date = date;
+        this.currency = currency;
+        this.desc = desc;
     }
 
     public Long getId() {
@@ -108,5 +131,13 @@ public class Expense {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

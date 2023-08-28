@@ -1,8 +1,12 @@
 package com.pico.budgetapplication.service;
 
+import com.pico.budgetapplication.dto.ExpenseDTO;
+import com.pico.budgetapplication.model.Category;
 import com.pico.budgetapplication.model.Expense;
 import com.pico.budgetapplication.model.User;
+import com.pico.budgetapplication.repository.CategoryRepository;
 import com.pico.budgetapplication.repository.ExpenseRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,21 +15,31 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ExpenseService(ExpenseRepository expenseRepository) {
+    public ExpenseService(ExpenseRepository expenseRepository, CategoryRepository categoryRepository) {
         this.expenseRepository = expenseRepository;
+        this.categoryRepository = categoryRepository;
     }
 
-    public List<Expense> findUserExpenses(Principal principal){
+    public List<ExpenseDTO> findUserExpenses(Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        return expenseRepository.findAllByUser(user);
+        return expenseRepository.findAllByUser(user).stream().map(
+                expense -> new ExpenseDTO(expense.getId(), expense.getAmount(),
+                        expense.getDate(),
+                        expense.getCurrency(),
+                        expense.getDesc(),
+                        expense.getCategory().getCategoryName(),
+                        expense.getPaymentMethod())
+        ).collect(Collectors.toList());
     }
 
-    public Optional<Expense> findById(Integer id, Principal principal){
+    public ExpenseDTO findById(Integer id, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         if(user == null){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User's principal not found");
@@ -35,32 +49,52 @@ public class ExpenseService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Expense does not exist or user does not exist for this expense.");
         }
 
-        return Optional.ofNullable(expenseRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found")));
+        Expense optionalExpense = expenseRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found") );
+
+        return new ExpenseDTO(
+                optionalExpense.getId(),
+                optionalExpense.getAmount(),
+                optionalExpense.getDate(),
+                optionalExpense.getCurrency(),
+                optionalExpense.getDesc(),
+                optionalExpense.getCategory().getCategoryName(),
+                optionalExpense.getPaymentMethod()
+                );
     }
 
-    public Expense save(Expense expense, Principal principal){
+    public void save(ExpenseDTO expenseDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         //Create expense for the authenticated user
+        Expense expense = new Expense(expenseDTO.amount(), expenseDTO.addedAt(), expenseDTO.currency(), expenseDTO.desc(), null, null, expenseDTO.paymentMethod());
         expense.setUser(new User(user.getId()));
+        expense.setCategory(new Category(expenseDTO.categoryName()));
 
-        return expenseRepository.save(expense);
+        expenseRepository.save(expense);
     }
 
-    public List<Expense> saveAllExpenses(List<Expense> expenseList, Principal principal){
+    public void saveAllExpenses(List<ExpenseDTO> expenseDTOList, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-
         //Expenses should be created for the authenticated user
-        for(Expense expense : expenseList){
+        List<Expense> expenseList = expenseDTOList.stream().map( expenseDTO
+                -> {
+            Expense expense = new Expense(expenseDTO.amount(), expenseDTO.addedAt(), expenseDTO.currency(), expenseDTO.desc());
             expense.setUser(new User(user.getId()));
-        }
+            return expense;
+        }).collect(Collectors.toList());
 
-        return expenseRepository.saveAll(expenseList);
+        expenseRepository.saveAll(expenseList);
     }
 
-    public Expense update(Expense expense, Principal principal){
+    public Expense update(ExpenseDTO expenseDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        expense.setUser(new User(user.getId()));
+        Optional<Expense> optionalExpense = expenseRepository.findById(expenseDTO.id().intValue());
+        if(optionalExpense.isEmpty()){
+            return null;
+        }
+        Expense expense = new Expense(expenseDTO.id(),expenseDTO.amount(), expenseDTO.addedAt(), expenseDTO.currency(), expenseDTO.desc());
+        expense.setUser(user);
+        expense.setCategory(optionalExpense.get().getCategory());
+        expense.setPaymentMethod(expenseDTO.paymentMethod());
         return expenseRepository.save(expense);
     }
 
@@ -76,10 +110,20 @@ public class ExpenseService {
         expenseRepository.deleteById(id);
     }
 
-    public List<Expense> filter(Integer categoryId, Principal principal){
+    public List<ExpenseDTO> filter(Integer categoryId, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        List<Expense> expenseByCategory = expenseRepository.findByCategory(categoryId).stream()
-                .filter( e-> Objects.equals(e.getUserId(), user.getId())).toList();
+        List<ExpenseDTO> expenseByCategory = expenseRepository.findByCategory(categoryId).stream()
+                .filter( e-> Objects.equals(e.getUserId(), user.getId()))
+                .map(expense ->
+                    new ExpenseDTO(
+                            expense.getId(),
+                            expense.getAmount(),
+                            expense.getDate(),
+                            expense.getCurrency(),
+                            expense.getDesc(),
+                            expense.getCategory().getCategoryName(),
+                            expense.getPaymentMethod())
+                ).collect(Collectors.toList());
         if(!expenseByCategory.isEmpty()){
             return expenseByCategory;
         }

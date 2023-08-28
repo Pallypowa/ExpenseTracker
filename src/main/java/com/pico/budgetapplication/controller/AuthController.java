@@ -1,25 +1,16 @@
 package com.pico.budgetapplication.controller;
 
-import com.pico.budgetapplication.jwt.JwtService;
-import com.pico.budgetapplication.model.AuthRequest;
+import com.pico.budgetapplication.dto.RegistrationDTO;
+import com.pico.budgetapplication.dto.AuthRequestDTO;
 import com.pico.budgetapplication.model.AuthResponse;
-import com.pico.budgetapplication.model.User;
-import com.pico.budgetapplication.repository.UserRepository;
 import com.pico.budgetapplication.service.UserService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 @RestController
 public class AuthController {
@@ -30,9 +21,9 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest){
+    public ResponseEntity<?> authenticate(@RequestBody AuthRequestDTO authRequestDTO){
         try{
-            String jwt = userService.authenticate(authRequest.getUsername(), authRequest.getPassword());
+            String jwt = userService.authenticate(authRequestDTO.getUsername(), authRequestDTO.getPassword());
             return new ResponseEntity<>(new AuthResponse(jwt), HttpStatus.OK);
         }catch(RuntimeException rte){
             return new ResponseEntity<>(rte.getMessage(),HttpStatus.OK);
@@ -40,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@NotNull @RequestBody User user){
+    public ResponseEntity<?> register(@NotNull @RequestBody RegistrationDTO user){
         try {
             userService.register(user);
         }catch(ResponseStatusException rse){

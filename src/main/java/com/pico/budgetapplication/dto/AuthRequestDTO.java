@@ -1,6 +1,6 @@
-package com.pico.budgetapplication.model;
+package com.pico.budgetapplication.dto;
 
-public class AuthRequest {
+public class AuthRequestDTO {
     private String username;
     private String password;
 

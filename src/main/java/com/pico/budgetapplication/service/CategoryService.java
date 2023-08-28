@@ -1,5 +1,6 @@
 package com.pico.budgetapplication.service;
 
+import com.pico.budgetapplication.dto.CategoryDTO;
 import com.pico.budgetapplication.model.Category;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,17 +30,20 @@ public class CategoryService {
         categoryRepository.save(newCategory);
     }
 
-    public List<Category> findMyCategories(Principal principal){
+    public List<CategoryDTO> findMyCategories(Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         List<Category> categoryList = categoryRepository.findAllByUserId(user.getId());
         categoryList.addAll(categoryRepository.findAllByUserId(null));
-        return categoryList;
+
+        return categoryList.stream().map(
+                category -> new CategoryDTO(category.getCategoryName())
+        ).collect(Collectors.toList());
     }
 
 
     public void deleteCategory(String name, Principal principal) {
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<Category> category = categoryRepository.findByCategoryName(name);
+        Optional<Category> category = categoryRepository.findCategoryByCategoryNameAndUserId(name, user.getId());
 
         if(category.isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist");

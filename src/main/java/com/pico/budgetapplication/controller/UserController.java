@@ -1,6 +1,6 @@
 package com.pico.budgetapplication.controller;
 
-import com.pico.budgetapplication.model.ProjectUserDetails;
+import com.pico.budgetapplication.dto.UserDTO;
 import com.pico.budgetapplication.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class UserController {
     }
 
     @GetMapping("/myUserDetails")
-    public ProjectUserDetails getMyUserName(Principal principal){
+    public UserDTO getMyUserName(Principal principal){
         return userService.findMyUserDetails(principal);
     }
 

@@ -2,6 +2,7 @@ package com.pico.budgetapplication;
 
 import com.pico.budgetapplication.model.Category;
 import com.pico.budgetapplication.model.Expense;
+import com.pico.budgetapplication.model.PaymentMethod;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.CategoryRepository;
 import com.pico.budgetapplication.repository.UserRepository;
@@ -68,23 +69,27 @@ public class BudgetApplication {
                     LocalDateTime.now(),
                     "HUF",
                     "Just a daily cinema", user1,
-                    categories.get(0));
+                    categories.get(0),
+                    PaymentMethod.CASH);
             Expense expense2 = new Expense(25000,
                     LocalDateTime.now(),
                     "HUF",
                     "Electricity bill", user1,
-                    categories.get(4));
+                    categories.get(4),
+                    PaymentMethod.CASH);
             Expense expense3 = new Expense(48900,
                     LocalDateTime.now(),
                     "HUF",
                     "User2", user2,
-                    categories.get(4));
+                    categories.get(4),
+                    PaymentMethod.CREDIT_CARD);
 
             Expense expense4 = new Expense(1500000,
                     LocalDateTime.now(),
                     "HUF",
                     "User 3", user3,
-                    categories.get(4));
+                    categories.get(4),
+                    PaymentMethod.OTHER);
 
             expenses1.add(expense1);
             expenses1.add(expense2);

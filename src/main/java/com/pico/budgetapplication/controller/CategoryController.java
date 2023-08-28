@@ -1,8 +1,8 @@
 package com.pico.budgetapplication.controller;
 
 
+import com.pico.budgetapplication.dto.CategoryDTO;
 import com.pico.budgetapplication.model.Category;
-import com.pico.budgetapplication.repository.CategoryRepository;
 import com.pico.budgetapplication.service.CategoryService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
@@ -18,13 +18,13 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryRepository categoryRepository, CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
     @GetMapping("/findMyCategories")
     @ResponseStatus(HttpStatus.OK)
-    public List<Category> findAll(Principal principal){
+    public List<CategoryDTO> findAll(Principal principal){
         return categoryService.findMyCategories(principal);
     }
 
