@@ -1,6 +1,7 @@
 package com.pico.budgetapplication.service;
 
 import com.pico.budgetapplication.dto.CategoryDTO;
+import com.pico.budgetapplication.dto.CategoryUpdateDTO;
 import com.pico.budgetapplication.model.Category;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.CategoryRepository;
@@ -24,9 +25,15 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public void createCategory(Category category, Principal principal){
+    public void createCategory(CategoryDTO category, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Category newCategory = new Category(category.getCategoryName(), user.getId());
+        Optional<List<Category>> categories = categoryRepository.findCatByName(category.categoryName());
+
+        if(!categories.get().isEmpty()){
+            if(categories.get().stream().anyMatch(c -> c.userIsNull())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A default category already exist");
+            if(categories.get().stream().anyMatch(c -> c.getUser().getId().equals(user.getId()))) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You already have this category");
+        }
+        Category newCategory = new Category(category.categoryName(), user.getId());
         categoryRepository.save(newCategory);
     }
 
@@ -41,42 +48,54 @@ public class CategoryService {
     }
 
 
-    public void deleteCategory(String name, Principal principal) {
+    public void deleteCategory(String categoryName, Principal principal) {
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<Category> category = categoryRepository.findCategoryByCategoryNameAndUserId(name, user.getId());
+        Optional<List<Category>> categoryInDb = categoryRepository.findCatByName(categoryName);
 
-        if(category.isEmpty()){
+        if(categoryInDb.get().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist");
         }
 
-        if(category.get().userIsNull()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't delete default categories");
+        if(categoryInDb.get().size() == 1){
+            if(categoryInDb.get().get(0).userIsNull()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't delete default categories!");
+            if(!Objects.equals(categoryInDb.get().get(0).getUser().getId(), user.getId())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't delete other people's categories!");
+            categoryRepository.delete(categoryInDb.get().get(0));
         }
-
-        if(!Objects.equals(category.get().getUser().getId(), user.getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only delete your user's categories");
-        }
-        categoryRepository.deleteByCategoryName(name);
+        categoryInDb.get().removeIf( c -> c.userIsNull());
+        if(categoryInDb.get().stream().noneMatch( c -> c.getUser().getId().equals(user.getId()))) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't delete other people's categories!");
+        Category category = categoryInDb.get().stream().filter( c -> c.getUser().getId().equals(user.getId())).findFirst().get();
+        categoryRepository.delete(category);
     }
 
-    public void updateCategory(Category category, Principal principal){
+    public void updateCategory(CategoryUpdateDTO categoryUpdateDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
+        Optional<List<Category>> categoryInDb = categoryRepository.findCatByName(categoryUpdateDTO.oldName());
 
-        Optional<Category> categoryInDb = categoryRepository.findById(category.getId());
-
-        if(categoryInDb.isEmpty()){
+        if(categoryInDb.get().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist");
         }
 
-        if(categoryInDb.get().userIsNull()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't edit default categories");
+        if(categoryInDb.get().size() == 1){
+            Category category = categoryInDb.get().get(0);
+            if(category.userIsNull()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't edit default categories");
+            if(!category.getUser().getId().equals(user.getId())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't edit other people's categories!");
+            category.setCategoryName(categoryUpdateDTO.newName());
+            categoryRepository.save(category);
         }
 
-        if(!Objects.equals(categoryInDb.get().getUser().getId(), user.getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only delete your user's categories");
+        List<Category> categoryList = categoryInDb.get().stream().filter(c -> {
+            if(c.userIsNull()){
+                return false;
+            }
+            return c.getUser().getId().equals(user.getId());
+        }).toList();
+
+        if(categoryList.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't edit other people's categories!");
         }
 
+        Category category = categoryList.get(0);
+        category.setCategoryName(categoryUpdateDTO.newName());
         categoryRepository.save(category);
-
     }
 }

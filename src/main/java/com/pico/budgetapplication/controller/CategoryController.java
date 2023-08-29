@@ -2,8 +2,10 @@ package com.pico.budgetapplication.controller;
 
 
 import com.pico.budgetapplication.dto.CategoryDTO;
+import com.pico.budgetapplication.dto.CategoryUpdateDTO;
 import com.pico.budgetapplication.model.Category;
 import com.pico.budgetapplication.service.CategoryService;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,18 +31,18 @@ public class CategoryController {
     }
 
     @PostMapping("/createCategory")
-    public ResponseEntity<?> createCategory(@NotNull @RequestBody Category category, Principal principal){
+    public ResponseEntity<?> createCategory(@NotBlank @RequestBody CategoryDTO category, Principal principal){
         try{
             categoryService.createCategory(category, principal);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch(RuntimeException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch(ResponseStatusException e){
+            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         }
     }
 
     @PutMapping("/updateCategory")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateCategory(@NotNull @RequestBody Category category, Principal principal){
+    public ResponseEntity<?> updateCategory(@NotNull @RequestBody CategoryUpdateDTO category, Principal principal){
         try{
             categoryService.updateCategory(category, principal);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -51,7 +53,7 @@ public class CategoryController {
 
     @DeleteMapping("/deleteCategory")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> deleteCategory(@NotNull @RequestParam(name = "categoryName") String name, Principal principal){
+    public ResponseEntity<?> deleteCategory(@NotBlank @RequestParam(name = "categoryName") String name, Principal principal){
         try{
             categoryService.deleteCategory(name,principal);
             return new ResponseEntity<>(HttpStatus.OK);

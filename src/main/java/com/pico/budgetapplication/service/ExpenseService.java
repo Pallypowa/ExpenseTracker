@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
@@ -67,9 +68,33 @@ public class ExpenseService {
         //Create expense for the authenticated user
         Expense expense = new Expense(expenseDTO.amount(), expenseDTO.addedAt(), expenseDTO.currency(), expenseDTO.desc(), null, null, expenseDTO.paymentMethod());
         expense.setUser(new User(user.getId()));
-        expense.setCategory(new Category(expenseDTO.categoryName()));
+
+        setCategoryForExpense(expenseDTO, user, expense);
 
         expenseRepository.save(expense);
+    }
+
+    private void setCategoryForExpense(ExpenseDTO expenseDTO, User user, Expense expense) {
+        Optional<List<Category>> category = categoryRepository.findCatByName(expenseDTO.categoryName());
+
+        if(category.get().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist!");
+        }
+
+        Optional<Category> cat =  category
+                .get()
+                .stream()
+                .filter(c -> c.userIsNull()
+                ).findFirst();
+
+        if(cat.isEmpty()){
+            cat = category
+                    .get()
+                    .stream()
+                    .filter(c -> c.getUser().getId().equals(user.getId())
+                    ).findFirst();
+        }
+        cat.ifPresent(expense::setCategory);
     }
 
     public void saveAllExpenses(List<ExpenseDTO> expenseDTOList, Principal principal){
@@ -77,11 +102,18 @@ public class ExpenseService {
         //Expenses should be created for the authenticated user
         List<Expense> expenseList = expenseDTOList.stream().map( expenseDTO
                 -> {
-            Expense expense = new Expense(expenseDTO.amount(), expenseDTO.addedAt(), expenseDTO.currency(), expenseDTO.desc());
+            Expense expense = new Expense(
+                    expenseDTO.amount(),
+                    expenseDTO.addedAt(),
+                    expenseDTO.currency(),
+                    expenseDTO.desc(),
+                    null, null
+                    ,expenseDTO.paymentMethod());
+            setCategoryForExpense(expenseDTO, user, expense);
+
             expense.setUser(new User(user.getId()));
             return expense;
         }).collect(Collectors.toList());
-
         expenseRepository.saveAll(expenseList);
     }
 
@@ -110,9 +142,12 @@ public class ExpenseService {
         expenseRepository.deleteById(id);
     }
 
+    //TODO implement other filters like for date, query for current month, get top expense etc...
     public List<ExpenseDTO> filter(Integer categoryId, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        List<ExpenseDTO> expenseByCategory = expenseRepository.findByCategory(categoryId).stream()
+        List<ExpenseDTO> expenseByCategory = expenseRepository
+                .findByCategory(categoryId)
+                .stream()
                 .filter( e-> Objects.equals(e.getUserId(), user.getId()))
                 .map(expense ->
                     new ExpenseDTO(

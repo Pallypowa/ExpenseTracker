@@ -1,4 +1,6 @@
 package com.pico.budgetapplication.dto;
 
-public record CategoryDTO(String categoryName) {
+import jakarta.validation.constraints.NotBlank;
+
+public record CategoryDTO(@NotBlank String categoryName) {
 }
