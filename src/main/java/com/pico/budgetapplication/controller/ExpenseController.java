@@ -4,11 +4,17 @@ package com.pico.budgetapplication.controller;
 import com.pico.budgetapplication.dto.ExpenseDTO;
 import com.pico.budgetapplication.model.Expense;
 import com.pico.budgetapplication.service.ExpenseService;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -68,9 +74,18 @@ public class ExpenseController {
         expenseService.delete(id, principal);
     }
 
+//    @RequestParam(name = "categoryId", required = false) Integer categoryId,
+//    @RequestParam(value = "startDate", required = false) LocalDateTime startInterval,
+//    @RequestParam(value = "endDate", required = false) LocalDateTime endInterval,
+//    @RequestParam(value = "minAmount", required = false) Integer minAmount,
+//    @RequestParam(value = "maxAmount", required = false) Integer maxAmount,
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/filter")
-    public List<ExpenseDTO> filterExpense(@RequestParam(name = "categoryId") Integer categoryId, Principal principal){
-        return expenseService.filter(categoryId, principal);
+    public List<ExpenseDTO> filterExpenses(
+            @RequestParam(name = "startDate") LocalDate startDate,
+            @RequestParam(name = "endDate") LocalDate endDate,
+            @RequestParam Map<String, String> requestParams, Principal principal){
+        return expenseService.filter(startDate, endDate, requestParams, principal);
     }
 }

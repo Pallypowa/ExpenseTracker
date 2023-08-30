@@ -13,9 +13,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.swing.text.html.Option;
 import java.security.Principal;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -142,26 +143,86 @@ public class ExpenseService {
         expenseRepository.deleteById(id);
     }
 
-    //TODO implement other filters like for date, query for current month, get top expense etc...
-    public List<ExpenseDTO> filter(Integer categoryId, Principal principal){
+    //TODO finish
+    public List<ExpenseDTO> filter(LocalDate startDate,
+                                   LocalDate endDate,
+                                   Map<String, String> requestParams,
+                                   Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        List<ExpenseDTO> expenseByCategory = expenseRepository
-                .findByCategory(categoryId)
-                .stream()
-                .filter( e-> Objects.equals(e.getUserId(), user.getId()))
-                .map(expense ->
-                    new ExpenseDTO(
-                            expense.getId(),
-                            expense.getAmount(),
-                            expense.getDate(),
-                            expense.getCurrency(),
-                            expense.getDesc(),
-                            expense.getCategory().getCategoryName(),
-                            expense.getPaymentMethod())
-                ).collect(Collectors.toList());
-        if(!expenseByCategory.isEmpty()){
-            return expenseByCategory;
+
+        final String category = "category";
+        final String minAmount = "minAmount";
+        final String maxAmount = "maxAmount";
+
+        //Check if there is any valid parameter...
+        List<Expense> expenses = expenseRepository.findAllByDateBetweenAndUserId(
+                LocalDateTime.of(startDate, LocalTime.MIDNIGHT),
+                LocalDateTime.of(endDate, LocalTime.MIDNIGHT),
+                user.getId());
+        List<Expense> filteredExpenses = new ArrayList<>();
+
+        if(requestParams.keySet().stream().anyMatch(key -> key.equals(category) || key.equals(minAmount) || key.equals(maxAmount))){
+            requestParams.forEach((key,value)->{
+                switch (key){
+                    case category ->
+                        filteredExpenses.addAll(expenses.stream()
+                                .filter(e -> Objects.equals(e.getCategory().getCategoryName(), value))
+                                .toList());
+                    case minAmount ->
+                            filteredExpenses.addAll(expenses.stream()
+                                    .filter(e -> e.getAmount() >= Integer.parseInt(value))
+                                    .toList());
+                    case maxAmount ->
+                            filteredExpenses.addAll(expenses.stream()
+                                    .filter(e -> e.getAmount() <= Integer.parseInt(value))
+                                    .toList());
+                }
+
+            });
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No expense with the given category!");
+
+        List<ExpenseDTO> expenseDTOS = filteredExpenses.stream().map(
+                e -> new ExpenseDTO(e.getId(),
+                        e.getAmount(),
+                        e.getDate(),
+                        e.getCurrency(),
+                        e.getDesc(),
+                        e.getCategory().getCategoryName(),
+                        e.getPaymentMethod())
+                ).toList();
+
+        return expenseDTOS;
     }
+
+    private ExpenseDTO filterByMaxAmount(String value, Long userId) {
+        return null;
+    }
+
+    private ExpenseDTO filterByMinAmount(String value, Long userId) {
+        return null;
+    }
+
+    private ExpenseDTO filterByCategory(String value, Long userId) {
+        return null;
+    }
+//        User user = ServiceUtil.getUserInstanceByPrincipal(principal);
+//        List<ExpenseDTO> expenseByCategory = expenseRepository
+//                .findByCategory(categoryId)
+//                .stream()
+//                .filter( e-> Objects.equals(e.getUserId(), user.getId()))
+//                .map(expense ->
+//                    new ExpenseDTO(
+//                            expense.getId(),
+//                            expense.getAmount(),
+//                            expense.getDate(),
+//                            expense.getCurrency(),
+//                            expense.getDesc(),
+//                            expense.getCategory().getCategoryName(),
+//                            expense.getPaymentMethod())
+//                ).collect(Collectors.toList());
+//        if(!expenseByCategory.isEmpty()){
+//            return expenseByCategory;
+//        }
+//        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No expense with the given category!");
+//    }
 }
