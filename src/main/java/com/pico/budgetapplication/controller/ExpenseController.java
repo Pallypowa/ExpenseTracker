@@ -62,7 +62,7 @@ public class ExpenseController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/updateExpense")
     public ResponseEntity<?> updateExpense(@RequestBody ExpenseDTO expenseDTO, Principal principal){
-        Expense expense = expenseService.update(expenseDTO, principal);
+        ExpenseDTO expense = expenseService.update(expenseDTO, principal);
         if(expense != null)
             return new ResponseEntity<>(HttpStatus.CREATED);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -73,12 +73,6 @@ public class ExpenseController {
     public void deleteExpense(@RequestParam(name = "id") Integer id, Principal principal){
         expenseService.delete(id, principal);
     }
-
-//    @RequestParam(name = "categoryId", required = false) Integer categoryId,
-//    @RequestParam(value = "startDate", required = false) LocalDateTime startInterval,
-//    @RequestParam(value = "endDate", required = false) LocalDateTime endInterval,
-//    @RequestParam(value = "minAmount", required = false) Integer minAmount,
-//    @RequestParam(value = "maxAmount", required = false) Integer maxAmount,
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/filter")

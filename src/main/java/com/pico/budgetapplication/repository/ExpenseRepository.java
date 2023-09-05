@@ -17,5 +17,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     List<Expense> findByCategory(@Param("categoryId") Integer id);
     List<Expense> findAllByUser(User user);
 
-    List<Expense> findAllByDateBetweenAndUserId(LocalDateTime date, LocalDateTime date2, Long userId);
+    List<Expense> findAllByDateBetween(LocalDateTime date, LocalDateTime date2);
 }

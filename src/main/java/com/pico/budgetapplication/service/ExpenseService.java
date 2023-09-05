@@ -6,12 +6,10 @@ import com.pico.budgetapplication.model.Expense;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.CategoryRepository;
 import com.pico.budgetapplication.repository.ExpenseRepository;
-import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.swing.text.html.Option;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,21 +21,18 @@ import java.util.stream.Collectors;
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
-    public ExpenseService(ExpenseRepository expenseRepository, CategoryRepository categoryRepository) {
+    public ExpenseService(ExpenseRepository expenseRepository, CategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<ExpenseDTO> findUserExpenses(Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         return expenseRepository.findAllByUser(user).stream().map(
-                expense -> new ExpenseDTO(expense.getId(), expense.getAmount(),
-                        expense.getDate(),
-                        expense.getCurrency(),
-                        expense.getDesc(),
-                        expense.getCategory().getCategoryName(),
-                        expense.getPaymentMethod())
+                expense -> modelMapper.map(expense, ExpenseDTO.class)
         ).collect(Collectors.toList());
     }
 
@@ -50,33 +45,24 @@ public class ExpenseService {
         if(fetchedExpense.isEmpty() || fetchedExpense.get().getUserId().intValue() != user.getId()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Expense does not exist or user does not exist for this expense.");
         }
-
         Expense optionalExpense = expenseRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found") );
 
-        return new ExpenseDTO(
-                optionalExpense.getId(),
-                optionalExpense.getAmount(),
-                optionalExpense.getDate(),
-                optionalExpense.getCurrency(),
-                optionalExpense.getDesc(),
-                optionalExpense.getCategory().getCategoryName(),
-                optionalExpense.getPaymentMethod()
-                );
+        return modelMapper.map(optionalExpense, ExpenseDTO.class);
     }
 
     public void save(ExpenseDTO expenseDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         //Create expense for the authenticated user
-        Expense expense = new Expense(expenseDTO.amount(), expenseDTO.addedAt(), expenseDTO.currency(), expenseDTO.desc(), null, null, expenseDTO.paymentMethod());
+        Expense expense = modelMapper.map(expenseDTO, Expense.class);
         expense.setUser(new User(user.getId()));
 
         setCategoryForExpense(expenseDTO, user, expense);
-
+        //TODO check why it's null (probably isn't mapped correctly)
         expenseRepository.save(expense);
     }
 
     private void setCategoryForExpense(ExpenseDTO expenseDTO, User user, Expense expense) {
-        Optional<List<Category>> category = categoryRepository.findCatByName(expenseDTO.categoryName());
+        Optional<List<Category>> category = categoryRepository.findCatByName(expenseDTO.getCategoryName());
 
         if(category.get().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist!");
@@ -103,13 +89,7 @@ public class ExpenseService {
         //Expenses should be created for the authenticated user
         List<Expense> expenseList = expenseDTOList.stream().map( expenseDTO
                 -> {
-            Expense expense = new Expense(
-                    expenseDTO.amount(),
-                    expenseDTO.addedAt(),
-                    expenseDTO.currency(),
-                    expenseDTO.desc(),
-                    null, null
-                    ,expenseDTO.paymentMethod());
+            Expense expense = modelMapper.map(expenseDTO, Expense.class);
             setCategoryForExpense(expenseDTO, user, expense);
 
             expense.setUser(new User(user.getId()));
@@ -118,17 +98,17 @@ public class ExpenseService {
         expenseRepository.saveAll(expenseList);
     }
 
-    public Expense update(ExpenseDTO expenseDTO, Principal principal){
+    public ExpenseDTO update(ExpenseDTO expenseDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<Expense> optionalExpense = expenseRepository.findById(expenseDTO.id().intValue());
+        Optional<Expense> optionalExpense = expenseRepository.findById(expenseDTO.getId().intValue());
         if(optionalExpense.isEmpty()){
             return null;
         }
-        Expense expense = new Expense(expenseDTO.id(),expenseDTO.amount(), expenseDTO.addedAt(), expenseDTO.currency(), expenseDTO.desc());
+        Expense expense = new Expense(expenseDTO.getId(),expenseDTO.getAmount(), expenseDTO.getDate(), expenseDTO.getDesc(), expenseDTO.getDesc());
         expense.setUser(user);
         expense.setCategory(optionalExpense.get().getCategory());
-        expense.setPaymentMethod(expenseDTO.paymentMethod());
-        return expenseRepository.save(expense);
+        expense.setPaymentMethod(expenseDTO.getPaymentMethod());
+        return modelMapper.map(expenseRepository.save(expense), ExpenseDTO.class);
     }
 
     public void delete(Integer id, Principal principal){
@@ -155,74 +135,28 @@ public class ExpenseService {
         final String maxAmount = "maxAmount";
 
         //Check if there is any valid parameter...
-        List<Expense> expenses = expenseRepository.findAllByDateBetweenAndUserId(
+        List<Expense> expenses = expenseRepository.findAllByDateBetween(
                 LocalDateTime.of(startDate, LocalTime.MIDNIGHT),
-                LocalDateTime.of(endDate, LocalTime.MIDNIGHT),
-                user.getId());
-        List<Expense> filteredExpenses = new ArrayList<>();
+                LocalDateTime.of(endDate, LocalTime.MIDNIGHT));
+
+        expenses.removeIf( expense -> !expense.getUserId().equals(user.getId()));
 
         if(requestParams.keySet().stream().anyMatch(key -> key.equals(category) || key.equals(minAmount) || key.equals(maxAmount))){
             requestParams.forEach((key,value)->{
                 switch (key){
                     case category ->
-                        filteredExpenses.addAll(expenses.stream()
-                                .filter(e -> Objects.equals(e.getCategory().getCategoryName(), value))
-                                .toList());
+                            expenses.removeIf( expense -> !expense.getCategory().getCategoryName().equals(value));
                     case minAmount ->
-                            filteredExpenses.addAll(expenses.stream()
-                                    .filter(e -> e.getAmount() >= Integer.parseInt(value))
-                                    .toList());
+                            expenses.removeIf( expense -> expense.getAmount() < Integer.parseInt(value));
                     case maxAmount ->
-                            filteredExpenses.addAll(expenses.stream()
-                                    .filter(e -> e.getAmount() <= Integer.parseInt(value))
-                                    .toList());
+                            expenses.removeIf( expense -> expense.getAmount() > Integer.parseInt(value));
                 }
 
             });
         }
 
-        List<ExpenseDTO> expenseDTOS = filteredExpenses.stream().map(
-                e -> new ExpenseDTO(e.getId(),
-                        e.getAmount(),
-                        e.getDate(),
-                        e.getCurrency(),
-                        e.getDesc(),
-                        e.getCategory().getCategoryName(),
-                        e.getPaymentMethod())
+        return expenses.stream().map(
+                e -> modelMapper.map(e, ExpenseDTO.class)
                 ).toList();
-
-        return expenseDTOS;
     }
-
-    private ExpenseDTO filterByMaxAmount(String value, Long userId) {
-        return null;
-    }
-
-    private ExpenseDTO filterByMinAmount(String value, Long userId) {
-        return null;
-    }
-
-    private ExpenseDTO filterByCategory(String value, Long userId) {
-        return null;
-    }
-//        User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-//        List<ExpenseDTO> expenseByCategory = expenseRepository
-//                .findByCategory(categoryId)
-//                .stream()
-//                .filter( e-> Objects.equals(e.getUserId(), user.getId()))
-//                .map(expense ->
-//                    new ExpenseDTO(
-//                            expense.getId(),
-//                            expense.getAmount(),
-//                            expense.getDate(),
-//                            expense.getCurrency(),
-//                            expense.getDesc(),
-//                            expense.getCategory().getCategoryName(),
-//                            expense.getPaymentMethod())
-//                ).collect(Collectors.toList());
-//        if(!expenseByCategory.isEmpty()){
-//            return expenseByCategory;
-//        }
-//        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No expense with the given category!");
-//    }
 }
