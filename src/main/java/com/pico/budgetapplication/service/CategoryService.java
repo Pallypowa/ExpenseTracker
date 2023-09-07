@@ -6,6 +6,7 @@ import com.pico.budgetapplication.model.Category;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,20 +21,26 @@ import java.util.stream.Collectors;
 @Transactional
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
 
     public void createCategory(CategoryDTO category, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<List<Category>> categories = categoryRepository.findCatByName(category.categoryName());
+        Optional<List<Category>> categories = categoryRepository.findCatByName(category.getCategoryName());
 
         if(!categories.get().isEmpty()){
             if(categories.get().stream().anyMatch(c -> c.userIsNull())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A default category already exist");
             if(categories.get().stream().anyMatch(c -> c.getUser().getId().equals(user.getId()))) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You already have this category");
         }
-        Category newCategory = new Category(category.categoryName(), user.getId());
+        Category newCategory = new Category(category.getCategoryName(), user.getId());
+//        Or we could do:
+//        Category newCategory = modelMapper.map(category, Category.class);
+//        newCategory.setUser(new User());
+//        newCategory.getUser().setId(user.getId());
         categoryRepository.save(newCategory);
     }
 
@@ -43,7 +50,7 @@ public class CategoryService {
         categoryList.addAll(categoryRepository.findAllByUserId(null));
 
         return categoryList.stream().map(
-                category -> new CategoryDTO(category.getCategoryName())
+                category -> modelMapper.map(category, CategoryDTO.class)
         ).collect(Collectors.toList());
     }
 

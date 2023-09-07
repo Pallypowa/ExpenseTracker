@@ -5,6 +5,7 @@ import com.pico.budgetapplication.dto.UserDTO;
 import com.pico.budgetapplication.jwt.JwtService;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,13 +25,15 @@ public class UserService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ModelMapper modelMapper;
 
-    public UserService(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtService jwtService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtService jwtService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     public String authenticate(String username, String password){
@@ -71,12 +74,6 @@ public class UserService {
     public UserDTO findMyUserDetails(Principal principal){
         User user =  ServiceUtil.getUserInstanceByPrincipal(principal);
         User foundUser = userRepository.findById(user.getId()).get();
-        return new UserDTO(foundUser.getUsername(),
-                foundUser.getEmail(),
-                foundUser.getFirstName(),
-                foundUser.getLastName(),
-                foundUser.getAge(),
-                foundUser.getGender()
-                );
+        return modelMapper.map(foundUser, UserDTO.class);
     }
 }

@@ -1,6 +1,8 @@
 package com.pico.budgetapplication.config;
 
+import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.UserRepository;
+import com.pico.budgetapplication.service.ServiceUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+
+import java.security.Principal;
 
 @Configuration
 public class ApplicationConfig {

@@ -1,29 +1,25 @@
 package com.pico.budgetapplication.dto;
 
-import com.pico.budgetapplication.model.PaymentMethod;
-
 import java.time.LocalDateTime;
 
-public class ExpenseDTO {
+public class IncomeDTO {
     private Long id;
     private Integer amount;
     private LocalDateTime date;
     private String currency;
     private String desc;
     private String categoryName;
-    private PaymentMethod paymentMethod;
 
-    public ExpenseDTO() {
+    public IncomeDTO() {
     }
 
-    public ExpenseDTO(Long id, Integer amount, LocalDateTime date, String currency, String desc, String categoryName, PaymentMethod paymentMethod) {
+    public IncomeDTO(Long id, Integer amount, LocalDateTime date, String currency, String desc, String categoryName) {
         this.id = id;
         this.amount = amount;
         this.date = date;
         this.currency = currency;
         this.desc = desc;
         this.categoryName = categoryName;
-        this.paymentMethod = paymentMethod;
     }
 
     public Long getId() {
@@ -72,13 +68,5 @@ public class ExpenseDTO {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
 }

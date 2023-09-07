@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-@Table(name = "ExpenseCategory")
 public class Category {
     @Id
     @GeneratedValue
@@ -20,6 +19,9 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     @JsonIgnore
     private List<Expense> expenseList;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<Income> incomeList;
     @ManyToOne
     @JoinColumn(name = "userId")
     @JsonIgnore

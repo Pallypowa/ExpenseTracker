@@ -57,7 +57,6 @@ public class ExpenseService {
         expense.setUser(new User(user.getId()));
 
         setCategoryForExpense(expenseDTO, user, expense);
-        //TODO check why it's null (probably isn't mapped correctly)
         expenseRepository.save(expense);
     }
 
@@ -104,7 +103,7 @@ public class ExpenseService {
         if(optionalExpense.isEmpty()){
             return null;
         }
-        Expense expense = new Expense(expenseDTO.getId(),expenseDTO.getAmount(), expenseDTO.getDate(), expenseDTO.getDesc(), expenseDTO.getDesc());
+        Expense expense = modelMapper.map(expenseDTO, Expense.class);
         expense.setUser(user);
         expense.setCategory(optionalExpense.get().getCategory());
         expense.setPaymentMethod(expenseDTO.getPaymentMethod());
@@ -140,6 +139,7 @@ public class ExpenseService {
                 LocalDateTime.of(endDate, LocalTime.MIDNIGHT));
 
         expenses.removeIf( expense -> !expense.getUserId().equals(user.getId()));
+
 
         if(requestParams.keySet().stream().anyMatch(key -> key.equals(category) || key.equals(minAmount) || key.equals(maxAmount))){
             requestParams.forEach((key,value)->{

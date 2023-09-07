@@ -2,17 +2,13 @@ package com.pico.budgetapplication.controller;
 
 
 import com.pico.budgetapplication.dto.ExpenseDTO;
-import com.pico.budgetapplication.model.Expense;
 import com.pico.budgetapplication.service.ExpenseService;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+import com.pico.budgetapplication.service.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +18,11 @@ import java.util.Map;
 public class ExpenseController {
 
     private final ExpenseService expenseService;
+    private final TransactionService transactionService;
 
-    public ExpenseController(ExpenseService expenseService) {
+    public ExpenseController(ExpenseService expenseService, TransactionService transactionService) {
         this.expenseService = expenseService;
+        this.transactionService = transactionService;
     }
 
     //Should be an admin endpoint
@@ -48,7 +46,7 @@ public class ExpenseController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createExpense")
     public ResponseEntity<?> saveExpense(@RequestBody ExpenseDTO expense, Principal principal){
-        expenseService.save(expense, principal);
+        transactionService.addExpense(expense, principal);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

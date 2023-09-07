@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "UserTable")
+@Table(name = "Profile")
 public class User implements UserDetails {
 
     @Id
@@ -75,6 +75,8 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Expense> expenses;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private List<Income> incomes;
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Category> categories;
 
