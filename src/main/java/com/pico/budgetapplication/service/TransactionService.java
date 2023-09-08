@@ -21,18 +21,18 @@ public class TransactionService {
         this.expenseService = expenseService;
     }
 
-    public void addExpense(ExpenseDTO expenseDTO, Principal principal){
+    public void addExpense(Long accountId, ExpenseDTO expenseDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         //1. Subtract value from user account
-        accountService.deductExpense(expenseDTO.getAmount(), user);
+        accountService.deductExpense(accountId, expenseDTO.getAmount(), user);
         //2. Create Expense record for user
-        expenseService.save(expenseDTO, principal);
+        expenseService.save(expenseDTO, user);
     }
 
-    public void addIncome(IncomeDTO incomeDTO, Principal principal){
+    public void addIncome(Long accountId, IncomeDTO incomeDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         //1. Add value to user account
-        accountService.addIncome(incomeDTO.getAmount(), user);
+        accountService.addIncome(accountId,incomeDTO.getAmount(), user);
         //2. Create income record for user
         incomeService.save(incomeDTO, user);
     }

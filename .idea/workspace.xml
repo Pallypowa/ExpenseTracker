@@ -4,36 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dd3f5f22-b898-4c20-affb-37ee86740d67" name="Changes" comment="DTO Mapper added">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/AccountController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/AccountDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/IncomeDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Income.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/repository/AccountRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/repository/IncomeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/AccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/IncomeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/TransactionService.java" afterDir="false" />
+    <list default="true" id="dd3f5f22-b898-4c20-affb-37ee86740d67" name="Changes" comment="New entities introduced (Account, Income)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/config/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/config/ApplicationConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/BudgetApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/BudgetApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/AccountController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/ExpenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/ExpenseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/CategoryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/CategoryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/TransactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/TransactionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/AccountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/AccountDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/ExpenseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/dto/ExpenseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Income.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/model/Income.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/repository/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/ExpenseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/ExpenseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/config/ApplicationConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/config/ApplicationConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/IncomeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/IncomeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/TransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/BudgetApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/BudgetApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/controller/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/controller/AccountController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/controller/ExpenseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/controller/ExpenseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/dto/CategoryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/dto/CategoryDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/dto/AccountDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/dto/AccountDTO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/dto/ExpenseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/dto/ExpenseDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/Category.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/CategoryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/Income.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/model/Income.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/repository/AccountRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/repository/AccountRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/AccountService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/ExpenseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/ExpenseService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/IncomeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/IncomeService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/TransactionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pico/budgetapplication/service/TransactionService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +198,8 @@
       <workItem from="1693522778917" duration="39000" />
       <workItem from="1693948225853" duration="1576000" />
       <workItem from="1694030731076" duration="2781000" />
-      <workItem from="1694117207658" duration="6579000" />
+      <workItem from="1694117207658" duration="6714000" />
+      <workItem from="1694204585617" duration="7333000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -291,7 +289,23 @@
       <option name="project" value="LOCAL" />
       <updated>1693949797303</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="New entities introduced (Account, Income)">
+      <option name="closed" value="true" />
+      <created>1694124093259</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1694124093259</updated>
+    </task>
+    <task id="LOCAL-00013" summary="New entities introduced (Account, Income)">
+      <option name="closed" value="true" />
+      <created>1694124100310</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1694124100310</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -304,7 +318,8 @@
     <MESSAGE value="Service logic extended" />
     <MESSAGE value="Filtering added" />
     <MESSAGE value="DTO Mapper added" />
-    <option name="LAST_COMMIT_MESSAGE" value="DTO Mapper added" />
+    <MESSAGE value="New entities introduced (Account, Income)" />
+    <option name="LAST_COMMIT_MESSAGE" value="New entities introduced (Account, Income)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -331,7 +346,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/ExpenseService.java</url>
-          <line>91</line>
+          <line>90</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -341,26 +356,46 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/ExpenseService.java</url>
-          <line>157</line>
+          <line>156</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/ExpenseService.java</url>
-          <line>143</line>
+          <line>142</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/ExpenseService.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/CategoryService.java</url>
           <line>31</line>
           <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/AccountService.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/AccountService.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/AccountService.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/controller/TransactionController.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/pico/budgetapplication/service/IncomeService.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

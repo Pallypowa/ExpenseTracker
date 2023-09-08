@@ -1,11 +1,13 @@
 package com.pico.budgetapplication.dto;
 
 import com.pico.budgetapplication.model.PaymentMethod;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
 public class ExpenseDTO {
     private Long id;
+    @Positive
     private Integer amount;
     private LocalDateTime date;
     private String currency;

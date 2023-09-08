@@ -50,8 +50,7 @@ public class ExpenseService {
         return modelMapper.map(optionalExpense, ExpenseDTO.class);
     }
 
-    public void save(ExpenseDTO expenseDTO, Principal principal){
-        User user = ServiceUtil.getUserInstanceByPrincipal(principal);
+    public void save(ExpenseDTO expenseDTO, User user){
         //Create expense for the authenticated user
         Expense expense = modelMapper.map(expenseDTO, Expense.class);
         expense.setUser(new User(user.getId()));

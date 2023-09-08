@@ -1,7 +1,7 @@
 package com.pico.budgetapplication.dto;
 
 public class AccountDTO {
-    private long id;
+    private Long id;
     private Integer balance;
     private String name;
     private String currency;
@@ -9,18 +9,18 @@ public class AccountDTO {
     public AccountDTO() {
     }
 
-    public AccountDTO(long id, Integer balance, String name, String currency) {
+    public AccountDTO(Long id, Integer balance, String name, String currency) {
         this.id = id;
         this.balance = balance;
         this.name = name;
         this.currency = currency;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

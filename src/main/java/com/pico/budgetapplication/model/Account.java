@@ -12,15 +12,17 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    private String currency;
 
     public Account() {
     }
 
-    public Account(Long id, String accountName, Integer balance, User user) {
+    public Account(Long id, String accountName, Integer balance, User user, String currency) {
         this.id = id;
         this.accountName = accountName;
         this.balance = balance;
         this.user = user;
+        this.currency = currency;
     }
 
     public Long getId() {
@@ -53,5 +55,15 @@ public class Account {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    public Long getUserId(){
+        return this.user.getId();
+    }
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

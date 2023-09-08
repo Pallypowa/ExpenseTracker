@@ -4,6 +4,7 @@ package com.pico.budgetapplication.controller;
 import com.pico.budgetapplication.dto.ExpenseDTO;
 import com.pico.budgetapplication.service.ExpenseService;
 import com.pico.budgetapplication.service.TransactionService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +46,10 @@ public class ExpenseController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createExpense")
-    public ResponseEntity<?> saveExpense(@RequestBody ExpenseDTO expense, Principal principal){
-        transactionService.addExpense(expense, principal);
+    public ResponseEntity<?> saveExpense(@NotNull @RequestParam Long accountId,
+                                         @NotNull @RequestBody ExpenseDTO expense,
+                                         Principal principal){
+        transactionService.addExpense(accountId,expense, principal);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
