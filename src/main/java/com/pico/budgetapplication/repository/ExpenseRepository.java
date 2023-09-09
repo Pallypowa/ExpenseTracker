@@ -9,8 +9,9 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
-public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
+public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
     @Query("""
     SELECT e FROM Expense e WHERE e.category.id = :categoryId
 """)

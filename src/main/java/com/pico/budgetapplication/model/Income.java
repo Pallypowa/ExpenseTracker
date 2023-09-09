@@ -4,18 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class Income {
     @Id
-    @GeneratedValue
-    private long Id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID Id;
     @Column(nullable = false)
     private Integer amount;
     @Column(nullable = false)
     private String currency;
     @Column(nullable = false)
     private LocalDateTime date;
+    private String desc;
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     @JsonIgnore
@@ -23,17 +25,17 @@ public class Income {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
     private Category category;
-//    @ManyToOne
-//    @JoinColumn(name = "accountId", nullable = false)
-//    @JsonIgnore
-//    private Account account;
+    @ManyToOne
+    @JoinColumn(name = "accountId", nullable = false)
+    @JsonIgnore
+    private Account account;
 
 
-    public long getId() {
+    public UUID getId() {
         return Id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         Id = id;
     }
 
@@ -75,5 +77,21 @@ public class Income {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

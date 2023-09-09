@@ -4,9 +4,10 @@ import com.pico.budgetapplication.model.PaymentMethod;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ExpenseDTO {
-    private Long id;
+    private UUID id;
     @Positive
     private Integer amount;
     private LocalDateTime date;
@@ -14,11 +15,12 @@ public class ExpenseDTO {
     private String desc;
     private String categoryName;
     private PaymentMethod paymentMethod;
+    private UUID accountId;
 
     public ExpenseDTO() {
     }
 
-    public ExpenseDTO(Long id, Integer amount, LocalDateTime date, String currency, String desc, String categoryName, PaymentMethod paymentMethod) {
+    public ExpenseDTO(UUID id, Integer amount, LocalDateTime date, String currency, String desc, String categoryName, PaymentMethod paymentMethod) {
         this.id = id;
         this.amount = amount;
         this.date = date;
@@ -28,11 +30,11 @@ public class ExpenseDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -82,5 +84,13 @@ public class ExpenseDTO {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 }

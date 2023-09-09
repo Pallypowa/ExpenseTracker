@@ -1,7 +1,9 @@
 package com.pico.budgetapplication.dto;
 
+import java.util.UUID;
+
 public class AccountDTO {
-    private Long id;
+    private UUID id;
     private Integer balance;
     private String name;
     private String currency;
@@ -9,18 +11,18 @@ public class AccountDTO {
     public AccountDTO() {
     }
 
-    public AccountDTO(Long id, Integer balance, String name, String currency) {
+    public AccountDTO(UUID id, Integer balance, String name, String currency) {
         this.id = id;
         this.balance = balance;
         this.name = name;
         this.currency = currency;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

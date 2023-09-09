@@ -1,6 +1,7 @@
 package com.pico.budgetapplication.service;
 
 import com.pico.budgetapplication.dto.ExpenseDTO;
+import com.pico.budgetapplication.model.Account;
 import com.pico.budgetapplication.model.Category;
 import com.pico.budgetapplication.model.Expense;
 import com.pico.budgetapplication.model.User;
@@ -36,7 +37,7 @@ public class ExpenseService {
         ).collect(Collectors.toList());
     }
 
-    public ExpenseDTO findById(Integer id, Principal principal){
+    public ExpenseDTO findById(UUID id, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         if(user == null){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User's principal not found");
@@ -50,72 +51,48 @@ public class ExpenseService {
         return modelMapper.map(optionalExpense, ExpenseDTO.class);
     }
 
-    public void save(ExpenseDTO expenseDTO, User user){
+    public ExpenseDTO save(Account account, ExpenseDTO expenseDTO, User user){
         //Create expense for the authenticated user
         Expense expense = modelMapper.map(expenseDTO, Expense.class);
         expense.setUser(new User(user.getId()));
-
-        setCategoryForExpense(expenseDTO, user, expense);
-        expenseRepository.save(expense);
-    }
-
-    private void setCategoryForExpense(ExpenseDTO expenseDTO, User user, Expense expense) {
-        Optional<List<Category>> category = categoryRepository.findCatByName(expenseDTO.getCategoryName());
-
-        if(category.get().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist!");
-        }
-
-        Optional<Category> cat =  category
-                .get()
-                .stream()
-                .filter(c -> c.userIsNull()
-                ).findFirst();
-
-        if(cat.isEmpty()){
-            cat = category
-                    .get()
-                    .stream()
-                    .filter(c -> c.getUser().getId().equals(user.getId())
-                    ).findFirst();
-        }
-        cat.ifPresent(expense::setCategory);
+        expense.setAccount(account);
+        Category category = ServiceUtil.getCategoryForObject(expenseDTO.getCategoryName(), user, categoryRepository);
+        expense.setCategory(category);
+        return modelMapper.map(expenseRepository.save(expense),ExpenseDTO.class);
     }
 
     public void saveAllExpenses(List<ExpenseDTO> expenseDTOList, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         //Expenses should be created for the authenticated user
-        List<Expense> expenseList = expenseDTOList.stream().map( expenseDTO
-                -> {
-            Expense expense = modelMapper.map(expenseDTO, Expense.class);
-            setCategoryForExpense(expenseDTO, user, expense);
-
-            expense.setUser(new User(user.getId()));
-            return expense;
+        List<Expense> expenseList = expenseDTOList
+                .stream()
+                .map( expenseDTO -> {
+                    Expense expense = modelMapper.map(expenseDTO, Expense.class);
+                    Category category = ServiceUtil.getCategoryForObject(expenseDTO.getCategoryName(), user,categoryRepository);
+                    expense.setCategory(category);
+                    expense.setUser(new User(user.getId()));
+                    return expense;
         }).collect(Collectors.toList());
         expenseRepository.saveAll(expenseList);
     }
 
     public ExpenseDTO update(ExpenseDTO expenseDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<Expense> optionalExpense = expenseRepository.findById(expenseDTO.getId().intValue());
-        if(optionalExpense.isEmpty()){
-            return null;
+        Expense expenseFromDb = expenseRepository.findById(expenseDTO.getId()).orElseThrow();
+        if(!expenseFromDb.getUserId().equals(user.getId())){
+            throw new RuntimeException("You are not authorized to do that");
         }
         Expense expense = modelMapper.map(expenseDTO, Expense.class);
         expense.setUser(user);
-        expense.setCategory(optionalExpense.get().getCategory());
+        expense.setCategory(expenseFromDb.getCategory());
         expense.setPaymentMethod(expenseDTO.getPaymentMethod());
         return modelMapper.map(expenseRepository.save(expense), ExpenseDTO.class);
     }
 
-    public void delete(Integer id, Principal principal){
+    public void delete(UUID id, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<Expense> expense = expenseRepository.findById(id);
-        if(expense.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Expense does not exist");
-        }
-        if(expense.get().getUser().getId().intValue() != user.getId().intValue()){
+        Expense expense = expenseRepository.findById(id).orElseThrow();
+        if(expense.getUser().getId().intValue() != user.getId().intValue()){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't delete other people's expenses!");
         }
         expenseRepository.deleteById(id);

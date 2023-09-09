@@ -1,19 +1,21 @@
 package com.pico.budgetapplication.dto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class IncomeDTO {
-    private Long id;
+    private UUID id;
     private Integer amount;
     private LocalDateTime date;
     private String currency;
     private String desc;
     private String categoryName;
+    private UUID accountId;
 
     public IncomeDTO() {
     }
 
-    public IncomeDTO(Long id, Integer amount, LocalDateTime date, String currency, String desc, String categoryName) {
+    public IncomeDTO(UUID id, Integer amount, LocalDateTime date, String currency, String desc, String categoryName) {
         this.id = id;
         this.amount = amount;
         this.date = date;
@@ -22,11 +24,11 @@ public class IncomeDTO {
         this.categoryName = categoryName;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -68,5 +70,13 @@ public class IncomeDTO {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 }

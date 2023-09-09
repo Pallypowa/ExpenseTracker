@@ -67,9 +67,9 @@ public class BudgetApplication {
             users.add(user3);
             userRepository.saveAll(users);
 
-            Account account = new Account(1L, "Main", 980000, user1, "HUF");
-            Account account2 = new Account(2L, "Main", 12000, user2, "HUF");
-            Account account3 = new Account(3L, "Main", 120000, user3, "HUF");
+            Account account = new Account("Main", 980000, user1, "HUF");
+            Account account2 = new Account("Main", 12000, user2, "HUF");
+            Account account3 = new Account("Main", 120000, user3, "HUF");
 
             List<Account> accounts = new ArrayList<>();
             accounts.add(account);

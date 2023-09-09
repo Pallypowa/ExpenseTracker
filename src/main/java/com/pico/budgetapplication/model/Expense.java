@@ -4,14 +4,15 @@ package com.pico.budgetapplication.model;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Expense")
 public class Expense {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @Column(nullable = false)
     private Integer amount;
     @Column(nullable = false)
@@ -30,6 +31,10 @@ public class Expense {
 
     @Column(nullable = false)
     private PaymentMethod paymentMethod;
+    @ManyToOne
+    @JoinColumn(name = "accountId", nullable = false)
+    @JsonIgnore
+    private Account account;
 
     public Expense() {
 
@@ -69,7 +74,7 @@ public class Expense {
         this.paymentMethod = paymentMethod;
     }
 
-    public Expense(Long id, Integer amount, LocalDateTime date, String currency, String desc) {
+    public Expense(UUID id, Integer amount, LocalDateTime date, String currency, String desc) {
         this.id = id;
         this.amount = amount;
         this.date = date;
@@ -77,7 +82,7 @@ public class Expense {
         this.desc = desc;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
     public Integer getAmount() {
@@ -119,7 +124,7 @@ public class Expense {
     public Long getUserId() {
         return user.getId();
     }
-    public Long getCategoryId(){ return category.getId(); }
+    public UUID getCategoryId(){ return category.getId(); }
 
     public void setUser(User user) {
         this.user = user;
@@ -139,5 +144,17 @@ public class Expense {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

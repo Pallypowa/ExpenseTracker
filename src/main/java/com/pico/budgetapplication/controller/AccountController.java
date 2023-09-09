@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/expense_tracker/account")
@@ -34,7 +35,7 @@ public class AccountController {
         return ResponseEntity.ok("Updated");
     }
     @DeleteMapping("/deleteAccount")
-    public ResponseEntity<?> deleteAccount(@NotBlank @RequestParam Long id, Principal principal){
+    public ResponseEntity<?> deleteAccount(@RequestParam UUID id, Principal principal){
         accountService.deleteAccount(id, principal);
         return ResponseEntity.ok("Deleted");
     }

@@ -8,5 +8,6 @@ public record RegistrationDTO(String username,
                               String firstName,
                               String lastName,
                               Integer age,
-                              Gender gender){
+                              Gender gender,
+                              String currency){
 }

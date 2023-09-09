@@ -26,14 +26,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ModelMapper modelMapper;
+    private final AccountService accountService;
 
-    public UserService(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtService jwtService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
+    public UserService(AuthenticationManager authenticationManager,
+                       UserDetailsService userDetailsService,
+                       JwtService jwtService,
+                       UserRepository userRepository,
+                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                       ModelMapper modelMapper, AccountService accountService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.modelMapper = modelMapper;
+        this.accountService = accountService;
     }
 
     public String authenticate(String username, String password){
@@ -65,7 +72,8 @@ public class UserService {
                 user.age(),
                 user.gender());
         try{
-            userRepository.save(newUser);;
+            newUser = userRepository.save(newUser);
+            accountService.createAccountForNewUser(user.currency(), newUser);
         }catch(Exception e){
             throw new RuntimeException(e);
         }

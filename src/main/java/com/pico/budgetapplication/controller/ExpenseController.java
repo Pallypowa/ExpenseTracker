@@ -12,6 +12,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 @RestController
@@ -40,7 +41,7 @@ public class ExpenseController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/findById")
-    public ExpenseDTO findById(@RequestParam(name = "id") Integer id, Principal principal){
+    public ExpenseDTO findById(@RequestParam(name = "id") UUID id, Principal principal){
         return expenseService.findById(id, principal);
     }
 
@@ -49,7 +50,7 @@ public class ExpenseController {
     public ResponseEntity<?> saveExpense(@NotNull @RequestParam Long accountId,
                                          @NotNull @RequestBody ExpenseDTO expense,
                                          Principal principal){
-        transactionService.addExpense(accountId,expense, principal);
+        transactionService.addExpense(expense, principal);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -71,16 +72,8 @@ public class ExpenseController {
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/deleteExpense")
-    public void deleteExpense(@RequestParam(name = "id") Integer id, Principal principal){
+    public void deleteExpense(@RequestParam(name = "id") UUID id, Principal principal){
         expenseService.delete(id, principal);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/filter")
-    public List<ExpenseDTO> filterExpenses(
-            @RequestParam(name = "startDate") LocalDate startDate,
-            @RequestParam(name = "endDate") LocalDate endDate,
-            @RequestParam Map<String, String> requestParams, Principal principal){
-        return expenseService.filter(startDate, endDate, requestParams, principal);
-    }
 }

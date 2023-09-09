@@ -2,11 +2,13 @@ package com.pico.budgetapplication.model;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class Account {
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String accountName;
     private Integer balance;
     @ManyToOne
@@ -17,19 +19,18 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String accountName, Integer balance, User user, String currency) {
-        this.id = id;
+    public Account(String accountName, Integer balance, User user, String currency) {
         this.accountName = accountName;
         this.balance = balance;
         this.user = user;
         this.currency = currency;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

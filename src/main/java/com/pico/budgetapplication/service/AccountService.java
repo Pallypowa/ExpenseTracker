@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AccountService {
 
     private final AccountRepository accountRepository;
     private final ModelMapper modelMapper;
+    private final String MAIN_ACCOUNT = "Main";
 
     public AccountService(AccountRepository accountRepository, ModelMapper modelMapper) {
         this.accountRepository = accountRepository;
@@ -32,6 +34,15 @@ public class AccountService {
         return modelMapper.map(account, AccountDTO.class);
     }
 
+    public void createAccountForNewUser(String currency, User user){
+        Account account = new Account();
+        account.setUser(user);
+        account.setBalance(0);
+        account.setCurrency(currency);
+        account.setAccountName(MAIN_ACCOUNT);
+        accountRepository.save(account);
+    }
+
     public List<AccountDTO> getMyAccounts(Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
         List<Account> accounts = accountRepository.findAllByUser(user);
@@ -44,7 +55,7 @@ public class AccountService {
 
     public void updateAccount(AccountDTO accountDTO, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<Account> account = accountRepository.findById(accountDTO.getId().intValue());
+        Optional<Account> account = accountRepository.findById(accountDTO.getId());
         if(account.isEmpty() || !user.getId().equals(account.get().getUserId())){
             throw new RuntimeException("Record does not exist or you are not authorized to change it!");
         }
@@ -53,9 +64,9 @@ public class AccountService {
         accountRepository.save(newAccount);
     }
 
-    public void deleteAccount(Long id, Principal principal){
+    public void deleteAccount(UUID id, Principal principal){
         User user = ServiceUtil.getUserInstanceByPrincipal(principal);
-        Optional<Account> account = accountRepository.findById(id.intValue());
+        Optional<Account> account = accountRepository.findById(id);
         if(account.isEmpty()){
             throw new RuntimeException("User does not exist!");
         }
@@ -65,33 +76,22 @@ public class AccountService {
         accountRepository.delete(account.get());
     }
 
-
-
-    //AccountDTO should also be added
-    public void deductExpense(Long accountId, Integer amount, User user){
+    public Account addTransaction(UUID accountId, Integer amount, User user, Transaction transaction){
         //1. Get account
-        Account account = accountRepository.findById(accountId.intValue()).orElseThrow();
+        Account account = accountRepository.findById(accountId).orElseThrow();
         //2. Check if account belongs to the current user
         if(!isUserAccount(account, user)){
             throw new AuthorizationServiceException("You are not authorized to do that!");
         }
-        //3. Subtract the expense
-        account.setBalance(account.getBalance() - amount);
-        //4. Save account
-        accountRepository.save(account);
-    }
-
-    public void addIncome(Long accountId, Integer amount, User user){
-        //1. Get account
-        Account account = accountRepository.findById(accountId.intValue()).orElseThrow();
-        //2. Check if account belongs to the current user
-        if(!isUserAccount(account, user)){
-            throw new AuthorizationServiceException("You are not authorized to do that!");
+        //3. Income...
+        if(transaction == Transaction.INCOME){
+            account.setBalance(account.getBalance() + amount);
+        //Expense...
+        } else {
+            account.setBalance(account.getBalance() - amount);
         }
-        //3. Subtract the expense
-        account.setBalance(account.getBalance() + amount);
         //4. Save account
-        accountRepository.save(account);
+        return accountRepository.save(account);
     }
 
     private boolean isUserAccount(Account account, User user){
