@@ -78,9 +78,9 @@ public class AccountService {
 
     public Account addTransaction(UUID accountId, Integer amount, User user, Transaction transaction){
         //1. Get account
-        Account account = accountRepository.findById(accountId).orElseThrow();
+        Account account = findAccountById(accountId);
         //2. Check if account belongs to the current user
-        if(!isUserAccount(account, user)){
+        if(!ServiceUtil.isUserAccount(account, user.getId())){
             throw new AuthorizationServiceException("You are not authorized to do that!");
         }
         //3. Income...
@@ -94,7 +94,16 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    private boolean isUserAccount(Account account, User user){
-        return account.getUserId().equals(user.getId());
+    public Account findAccountById(UUID accountId){
+        return accountRepository.findById(accountId).orElseThrow();
+    }
+
+    public void updateAccount(Account account) {
+        accountRepository.save(account);
+
+    }
+
+    public Account getMainAccountForUser(Long userId){
+        return accountRepository.findMainAccount(userId).orElseThrow();
     }
 }

@@ -9,9 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @SpringBootApplication
@@ -67,9 +65,9 @@ public class BudgetApplication {
             users.add(user3);
             userRepository.saveAll(users);
 
-            Account account = new Account("Main", 980000, user1, "HUF");
-            Account account2 = new Account("Main", 12000, user2, "HUF");
-            Account account3 = new Account("Main", 120000, user3, "HUF");
+            Account account = new Account("Main", 980000, user1, "HUF", true);
+            Account account2 = new Account("Main", 12000, user2, "HUF", true);
+            Account account3 = new Account("Main", 120000, user3, "HUF", true);
 
             List<Account> accounts = new ArrayList<>();
             accounts.add(account);

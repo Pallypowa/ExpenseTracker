@@ -2,6 +2,8 @@ package com.pico.budgetapplication.controller;
 
 import com.pico.budgetapplication.dto.ExpenseDTO;
 import com.pico.budgetapplication.dto.IncomeDTO;
+import com.pico.budgetapplication.dto.SavingDTO;
+import com.pico.budgetapplication.dto.SavingTransDTO;
 import com.pico.budgetapplication.service.TransactionService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +75,47 @@ public class TransactionController {
             @RequestParam(name = "endDate") LocalDate endDate,
             @RequestParam Map<String, String> requestParams, Principal principal){
         return transactionService.filterExpenses(startDate, endDate, requestParams, principal);
+    }
+
+    @PostMapping("/addSaving")
+    public ResponseEntity<?> addSaving(@NotNull @RequestBody SavingDTO savingDTO, Principal principal){
+        SavingDTO createdSaving = transactionService.addSaving(savingDTO, principal);
+        return ResponseEntity.ok(createdSaving);
+    }
+    @GetMapping("/mySavings")
+    public ResponseEntity<?> findMySavings(Principal principal){
+        List<SavingDTO> mySavings = transactionService.getMySavings(principal);
+        return ResponseEntity.ok(mySavings);
+    }
+
+    @PostMapping("/addSavingTransaction")
+    public ResponseEntity<?> addTransaction(@NotNull @RequestParam(name = "accountId") UUID accountId,
+                                            @NotNull @RequestBody SavingTransDTO transaction,
+                                            Principal principal){
+        SavingTransDTO returnDTO = transactionService.addTransaction(accountId, transaction, principal);
+        return ResponseEntity.ok(returnDTO);
+    }
+
+    @PutMapping("/updateSaving")
+    public ResponseEntity<?> updateSaving(@NotNull @RequestBody SavingDTO savingDTO, Principal principal){
+        SavingDTO returnDTO = transactionService.updateSaving(savingDTO, principal);
+        return ResponseEntity.ok(returnDTO);
+    }
+
+    @DeleteMapping("/deleteSaving/{savingId}")
+    public void deleteSaving(@NotNull @PathVariable(name = "savingId") UUID savingId, Principal principal){
+        transactionService.deleteSaving(savingId, principal);
+    }
+
+    @PutMapping("/updateSavingTransHist")
+    public ResponseEntity<?> updateSTransactionHistory(@NotNull @RequestBody SavingTransDTO transaction, Principal principal){
+        SavingTransDTO returnDTO = transactionService.updateTransactionHistory(transaction, principal);
+        return ResponseEntity.ok(returnDTO);
+    }
+
+    @DeleteMapping("deleteSavingTransHist/{savingTransHistId}")
+    public void deleteStransactionHistory(@NotNull @PathVariable UUID savingTransHistId, Principal principal){
+        transactionService.deleteSavingTransHist(savingTransHistId, principal);
     }
     //TODO do a similar filtering for incomes, do a generate report etc...
 }

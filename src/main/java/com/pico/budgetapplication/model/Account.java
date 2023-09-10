@@ -15,15 +15,17 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
     private String currency;
+    private Boolean isMainAccount;
 
     public Account() {
     }
 
-    public Account(String accountName, Integer balance, User user, String currency) {
+    public Account(String accountName, Integer balance, User user, String currency, Boolean isMainAccount) {
         this.accountName = accountName;
         this.balance = balance;
         this.user = user;
         this.currency = currency;
+        this.isMainAccount = isMainAccount;
     }
 
     public UUID getId() {
@@ -66,5 +68,13 @@ public class Account {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Boolean getMainAccount() {
+        return isMainAccount;
+    }
+
+    public void setMainAccount(Boolean mainAccount) {
+        isMainAccount = mainAccount;
     }
 }

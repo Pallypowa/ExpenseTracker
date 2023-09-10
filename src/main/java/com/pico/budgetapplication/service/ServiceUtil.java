@@ -2,10 +2,7 @@ package com.pico.budgetapplication.service;
 
 import com.pico.budgetapplication.dto.ExpenseDTO;
 import com.pico.budgetapplication.dto.IncomeDTO;
-import com.pico.budgetapplication.model.Category;
-import com.pico.budgetapplication.model.Expense;
-import com.pico.budgetapplication.model.Income;
-import com.pico.budgetapplication.model.User;
+import com.pico.budgetapplication.model.*;
 import com.pico.budgetapplication.repository.CategoryRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,6 +37,10 @@ public class ServiceUtil {
                     ).findFirst();
         }
         return cat.get();
+    }
+
+    public static boolean isUserAccount(Account account, Long userId){
+        return account.getUserId().equals(userId);
     }
 
 }
