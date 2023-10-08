@@ -37,8 +37,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         mvc.pattern("/authenticate"),
-                        mvc.pattern("/h2-console"),
-                        toH2Console(),
                         mvc.pattern("/register"))
                 .permitAll()
                 .anyRequest()

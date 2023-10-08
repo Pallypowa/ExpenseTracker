@@ -63,8 +63,6 @@ public class SavingService {
         return modelMapper.map(savingTransHistRepository.save(savingTransHist), SavingTransDTO.class);
     }
 
-
-
     private void updateSavingAmount(Saving saving, SavingTransDTO transaction) {
         Integer currentAmount = saving.getCurrentAmount();
         if(transaction.getTransactionType().equals(SavingTransType.DEPOSIT)){

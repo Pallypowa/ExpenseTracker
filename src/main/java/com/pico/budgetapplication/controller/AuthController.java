@@ -41,4 +41,5 @@ public class AuthController {
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }

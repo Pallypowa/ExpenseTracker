@@ -6,8 +6,10 @@ import com.pico.budgetapplication.dto.SavingDTO;
 import com.pico.budgetapplication.dto.SavingTransDTO;
 import com.pico.budgetapplication.service.TransactionService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -38,14 +40,26 @@ public class TransactionController {
 
     @PostMapping("/addIncome")
     public ResponseEntity<?> addIncome(@NotNull @RequestBody IncomeDTO incomeDTO, Principal principal){
-        IncomeDTO returnDTO = transactionService.addIncome(incomeDTO, principal);
-        return ResponseEntity.ok(returnDTO);
+        try{
+            IncomeDTO returnDTO = transactionService.addIncome(incomeDTO, principal);
+            return ResponseEntity.ok(returnDTO);
+        }catch (ResponseStatusException responseStatusException){
+            return new ResponseEntity<>(responseStatusException.getMessage(), responseStatusException.getStatusCode());
+        }catch (RuntimeException runtimeException){
+            return new ResponseEntity<>(runtimeException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/addExpense")
     public ResponseEntity<?> addExpense(@NotNull @RequestBody ExpenseDTO expenseDTO, Principal principal){
-        ExpenseDTO returnDTO = transactionService.addExpense(expenseDTO, principal);
-        return ResponseEntity.ok(returnDTO);
+        try{
+            ExpenseDTO returnDTO = transactionService.addExpense(expenseDTO, principal);
+            return ResponseEntity.ok(returnDTO);
+        }catch (ResponseStatusException responseStatusException){
+            return new ResponseEntity<>(responseStatusException.getMessage(), responseStatusException.getStatusCode());
+        }catch (RuntimeException runtimeException){
+            return new ResponseEntity<>(runtimeException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/updateIncome")
@@ -117,5 +131,4 @@ public class TransactionController {
     public void deleteStransactionHistory(@NotNull @PathVariable UUID savingTransHistId, Principal principal){
         transactionService.deleteSavingTransHist(savingTransHistId, principal);
     }
-    //TODO do a similar filtering for incomes, do a generate report etc...
 }

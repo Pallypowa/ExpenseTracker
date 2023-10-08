@@ -5,8 +5,10 @@ import com.pico.budgetapplication.model.Account;
 import com.pico.budgetapplication.model.User;
 import com.pico.budgetapplication.repository.AccountRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -77,11 +79,15 @@ public class AccountService {
     }
 
     public Account addTransaction(UUID accountId, Integer amount, User user, Transaction transaction){
-        //1. Get account
+        //1. Get account & check if it exists
         Account account = findAccountById(accountId);
+
+        if(account == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account does not exist!");
+        }
         //2. Check if account belongs to the current user
         if(!ServiceUtil.isUserAccount(account, user.getId())){
-            throw new AuthorizationServiceException("You are not authorized to do that!");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to do that!");
         }
         //3. Income...
         if(transaction == Transaction.INCOME){
@@ -95,7 +101,7 @@ public class AccountService {
     }
 
     public Account findAccountById(UUID accountId){
-        return accountRepository.findById(accountId).orElseThrow();
+        return accountRepository.findById(accountId).orElse(null);
     }
 
     public void updateAccount(Account account) {
